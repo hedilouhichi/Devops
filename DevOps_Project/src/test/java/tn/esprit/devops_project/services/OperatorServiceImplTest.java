@@ -81,14 +81,8 @@ class OperatorServiceImplTest {
     void deleteOperator() {
         Long operatorId = 1L; // The ID of the operator to delete
         Mockito.when(operatorRepository.findById(operatorId)).thenReturn(Optional.of(operator));
-        
-        ArgumentCaptor<Operator> operatorCaptor = ArgumentCaptor.forClass(Operator.class);
-    
         operatorService.deleteOperator(operatorId);
-        
-        Mockito.verify(operatorRepository).delete(operatorCaptor.capture());
-        
-        assertEquals(operator, operatorCaptor.getValue());
+        Mockito.verify(operatorRepository).delete(operator);
 
      }
 
