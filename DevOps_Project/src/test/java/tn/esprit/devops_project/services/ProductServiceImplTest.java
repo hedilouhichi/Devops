@@ -41,7 +41,7 @@ class ProductServiceImplTest {
     void addProduct() {
         Stock stock = new Stock();
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
-        when(productRepository.save(any(Product.class)).thenReturn(product);
+        when(productRepository.save(any(Product.class))).thenReturn(product);
 
         Product addedProduct = productService.addProduct(product, 1L);
 
