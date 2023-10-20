@@ -79,19 +79,14 @@ class OperatorServiceImplTest {
 
     @Test
     void deleteOperator() {
-        Operator updatedOperator = new Operator(1L ,"updatedFname","updatedLname","updatedPassword", new HashSet<Invoice>());
-        Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(updatedOperator);
+        // Arrange
+        Mockito.when(operatorRepository.findById(3L)).thenReturn(Optional.of(operator));
         
         // Act
-        Operator result = operatorService.updateOperator(updatedOperator);
+        operatorService.deleteOperator(operator.getIdOperateur());
         
         // Assert
-        assertNotNull(result);
-        assertEquals(updatedOperator.getIdOperateur(), result.getIdOperateur());
-        assertEquals(updatedOperator.getFname(), result.getFname());
-        assertEquals(updatedOperator.getLname(), result.getLname());
-        assertEquals(updatedOperator.getPassword(), result.getPassword());
-        assertEquals(updatedOperator.getInvoices(), result.getInvoices());
+        Mockito.verify(operatorRepository, Mockito.times(1)).delete(operator);
 
      }
 
