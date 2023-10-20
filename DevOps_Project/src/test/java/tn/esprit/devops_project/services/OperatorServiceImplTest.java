@@ -80,7 +80,7 @@ class OperatorServiceImplTest {
 @Test
 void deleteOperator() {
     // Arrange
-    Long idToDelete = 3L;
+    Long idToDelete = 1L;
     Mockito.when(operatorRepository).deleteById(idToDelete);
 
     // Act
