@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductServiceImplTest {
     @Mock
     ProductRepository productRepository;
+    @Mock
     StockRepository stockRepository;
     @InjectMocks
     ProductServiceImpl productService;
