@@ -79,11 +79,10 @@ class OperatorServiceImplTest {
 
     @Test
     void deleteOperator() {
-        Operator updatedOperator = new Operator(3L ,"updatedFname","updatedLname","updatedPassword", new HashSet<Invoice>());
-        Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(updatedOperator);
         Long operatorId = 3L; // The ID of the operator to delete
-        operatorService.deleteOperator(opertorID);
-        Mockito.verify(operatorRepository).delete(updatedOperator);
+        Mockito.when(operatorRepository.findById(operatorId)).thenReturn(Optional.of(operator));
+        operatorService.deleteOperator(operatorId);
+        Mockito.verify(operatorRepository).delete(operator);
 
      }
 
@@ -109,7 +108,7 @@ class OperatorServiceImplTest {
     @Test
     void retrieveOperator() {
         Mockito.when(operatorRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(operator));
-        Operator stock1 = operatorService.retrieveOperator(Long.valueOf(2L));
-        Assertions.assertNotNull(stock1);
+        Operator op1 = operatorService.retrieveOperator(Long.valueOf(2L));
+        Assertions.assertNotNull(op1);
     }
 }
