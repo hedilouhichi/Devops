@@ -28,6 +28,7 @@ class ProductServiceImplTest {
     StockRepository stockRepository;
     @InjectMocks
     ProductServiceImpl productService;
+    
     ProductCategory productCategory;
     Product product = new Product(1L,"Atomic Habits",20,20, ProductCategory.BOOKS,new Stock());
     List<Product> productList = new ArrayList<Product>() {
@@ -39,49 +40,59 @@ class ProductServiceImplTest {
     @Test
     void addProduct() {
         Stock stock = new Stock();
-        Mockito.when(stockRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(stock));
-
-        Mockito.when(productRepository.save(Mockito.any(Product.class))).thenReturn(product);
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
+        when(productRepository.save(any(Product.class)).thenReturn(product);
 
         Product addedProduct = productService.addProduct(product, 1L);
-        Assertions.assertNotNull(addedProduct);
+
+        assertEquals(product, addedProduct);
+        verify(stockRepository, times(1)).findById(1L);
+        verify(productRepository, times(1)).save(any(Product.class));
     }
 
     @Test
     void retrieveProduct() {
-        Mockito.when(productRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(product));
-        Product product1 = productService.retrieveProduct(1L);
-        Assertions.assertNotNull(product1);
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+
+        Product retrievedProduct = productService.retrieveProduct(1L);
+
+        assertEquals(product, retrievedProduct);
+        verify(productRepository, times(1)).findById(1L);
     }
 
     @Test
     void retreiveAllProduct() {
-        Mockito.when(productRepository.findAll()).thenReturn(new ArrayList<Product>());
-        List<Product> productList1 = productService.retreiveAllProduct();
-        Assertions.assertNotNull(productList1);
+        when(productRepository.findAll()).thenReturn(productList);
+
+        List<Product> retrievedProducts = productService.retreiveAllProduct();
+
+        assertEquals(productList.size(), retrievedProducts.size());
+        verify(productRepository, times(1)).findAll();
     }
 
     @Test
     void retrieveProductByCategory() {
-        Mockito.when(productRepository.findByCategory(productCategory)).thenReturn(new ArrayList<Product>() );
-        List<Product> productList2 = productService.retrieveProductByCategory(ProductCategory.BOOKS);
-        Assertions.assertNotNull(productList2);
+        when(productRepository.findByCategory(ProductCategory.BOOKS)).thenReturn(productList);
+
+        List<Product> retrievedProducts = productService.retrieveProductByCategory(ProductCategory.BOOKS);
+
+        assertEquals(productList.size(), retrievedProducts.size());
+        verify(productRepository, times(1)).findByCategory(ProductCategory.BOOKS);
     }
 
     @Test
     void deleteProduct() {
-        Mockito.doNothing().when(productRepository).deleteById(Mockito.anyLong());
-        assertDoesNotThrow(() -> productService.deleteProduct(1L));
-        Mockito.verify(productRepository, Mockito.times(1)).deleteById(1L);
-
+        productService.deleteProduct(1L);
+        verify(productRepository, times(1)).deleteById(1L);
     }
 
     @Test
     void retreiveProductStock() {
-        Mockito.when(productRepository.findByStockIdStock(Mockito.anyLong())).thenReturn(productList);
-        List<Product> products = productService.retreiveProductStock(1L);
-        Assertions.assertNotNull(products);
-        Assertions.assertEquals(productList.size(), products.size());
-    }
+        when(productRepository.findByStockIdStock(1L)).thenReturn(productList);
 
+        List<Product> retrievedProducts = productService.retreiveProductStock(1L);
+
+        assertEquals(productList.size(), retrievedProducts.size());
+        verify(productRepository, times(1)).findByStockIdStock(1L);
+    }
 }
