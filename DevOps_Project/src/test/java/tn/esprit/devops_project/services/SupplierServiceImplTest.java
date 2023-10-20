@@ -69,12 +69,14 @@ class SupplierServiceImplTest {
 
     @Test
     void updateSupplier() {
+        Supplier updatedSupplier = new Supplier(1L,"code1","label1", SupplierCategory.CONVENTIONNE,invoiceset,activitySectorset);
+
         // Arrange
-        Supplier updatedSupplier = new Supplier(1L,"updatedcode","updatedlabel1", SupplierCategory.CONVENTIONNE,invoiceset,activitySectorset);
         Mockito.when(supplierRepository.save(Mockito.any(Supplier.class))).thenReturn(updatedSupplier);
 
         // Act
         Supplier savedSupplier = supplierService.updateSupplier(updatedSupplier);
+
         // Assert
         assertNotNull(savedSupplier);
         assertEquals(supplier.getIdSupplier(), savedSupplier.getIdSupplier());
