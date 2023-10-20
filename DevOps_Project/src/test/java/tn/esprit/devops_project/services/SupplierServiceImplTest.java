@@ -95,4 +95,16 @@ class SupplierServiceImplTest {
         Supplier supplier1 = supplierService.retrieveSupplier(Long.valueOf(2));
         Assertions.assertNotNull(supplier1);
     }
+    @Test
+    void deleteSupplier() {
+        // Arrange
+        Long idToDelete = 1L;
+
+        // Act
+        supplierService.deleteSupplier(idToDelete);
+
+        // Assert
+        // Verify that the deleteById method was called once with the correct id
+        Mockito.verify(supplierRepository, Mockito.times(1)).deleteById(idToDelete);
+    }
 }
