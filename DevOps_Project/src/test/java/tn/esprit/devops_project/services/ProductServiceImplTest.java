@@ -17,9 +17,9 @@ import tn.esprit.devops_project.repositories.StockRepository;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
@@ -32,12 +32,14 @@ class ProductServiceImplTest {
     @InjectMocks
     ProductServiceImpl productService;
     
-    ProductCategory productCategory;
-    Product product = new Product(1L,"Atomic Habits",20,20, ProductCategory.BOOKS,new Stock());
+
+    Set<Product> productset =new HashSet<>();
+    Stock stock = new Stock(1,"l1",productset);
+    Product product = new Product(1L,"Atomic Habits",20,20, ProductCategory.BOOKS,stock);
     List<Product> productList = new ArrayList<Product>() {
         {
-            add(new Product(2L,"12 rules of life",15,30,ProductCategory.BOOKS,new Stock()));
-            add(new Product(3L,"Jeans",10,10,ProductCategory.CLOTHING, new Stock()));
+            add(new Product(2L,"12 rules of life",15,30,ProductCategory.BOOKS,stock));
+            add(new Product(3L,"Jeans",10,10,ProductCategory.CLOTHING, stock));
         }
     };
     @Test
