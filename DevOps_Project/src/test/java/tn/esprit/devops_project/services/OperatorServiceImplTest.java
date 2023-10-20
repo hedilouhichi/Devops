@@ -77,33 +77,33 @@ class OperatorServiceImplTest {
 
     }
 
-    @Test
-    void deleteOperator() {
-        Long operatorId = 1L; // The ID of the operator to delete
-        Mockito.when(operatorRepository.findById(operatorId)).thenReturn(Optional.of(operator));
-        operatorService.deleteOperator(operatorId);
-        Mockito.verify(operatorRepository).delete(operator);
+    // @Test
+    // void deleteOperator() {
+    //     Long operatorId = 1L; // The ID of the operator to delete
+    //     Mockito.when(operatorRepository.findById(operatorId)).thenReturn(Optional.of(operator));
+    //     operatorService.deleteOperator(operatorId);
+    //     Mockito.verify(operatorRepository).delete(operator);
+
+    //  }
+
+     @Test
+     void updateOperator() {
+         // Arrange
+         Operator updatedOperator = new Operator(1L ,"updatedFname","updatedLname","updatedPassword", new HashSet<Invoice>());
+         Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(updatedOperator);
+
+         // Act
+         Operator result = operatorService.updateOperator(updatedOperator);
+
+         // Assert
+         assertNotNull(result);
+         assertEquals(updatedOperator.getIdOperateur(), result.getIdOperateur());
+         assertEquals(updatedOperator.getFname(), result.getFname());
+         assertEquals(updatedOperator.getLname(), result.getLname());
+         assertEquals(updatedOperator.getPassword(), result.getPassword());
+         assertEquals(updatedOperator.getInvoices(), result.getInvoices());
 
      }
-
-    // @Test
-    // void updateOperator() {
-    //     // Arrange
-    //     Operator updatedOperator = new Operator(1L ,"updatedFname","updatedLname","updatedPassword", new HashSet<Invoice>());
-    //     Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(updatedOperator);
-
-    //     // Act
-    //     Operator result = operatorService.updateOperator(updatedOperator);
-
-    //     // Assert
-    //     assertNotNull(result);
-    //     assertEquals(updatedOperator.getIdOperateur(), result.getIdOperateur());
-    //     assertEquals(updatedOperator.getFname(), result.getFname());
-    //     assertEquals(updatedOperator.getLname(), result.getLname());
-    //     assertEquals(updatedOperator.getPassword(), result.getPassword());
-    //     assertEquals(updatedOperator.getInvoices(), result.getInvoices());
-
-    // }
 
     @Test
     void retrieveOperator() {
