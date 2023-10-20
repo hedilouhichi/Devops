@@ -14,7 +14,6 @@ import tn.esprit.devops_project.repositories.SupplierRepository;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class SupplierServiceImplTest {
     @Mock
