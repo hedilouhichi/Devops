@@ -90,7 +90,7 @@ class OperatorServiceImplTest {
          // then
          Mockito.verify(operatorRepository, times(1))
                  .delete(entity);
-         assertThat(result, equalTo(true));;
+         assertThat(result, equalTo(true));
 
      }
 
