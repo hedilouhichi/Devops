@@ -79,18 +79,17 @@ class OperatorServiceImplTest {
 
     @Test
     void deleteOperator() {
-         final Operator entity = new Operator(4L, "hedi","louh","lou",new HashSet<Invoice>()));
+ // Arrange
+    final Operator entity = new Operator(4L, "hedi", "louh", "lou", new HashSet<Invoice>());
 
-         Mockito.when(operatorRepository.findById(4L)
-                 .thenReturn(entity);
-
-         // when
-         final boolean result = operatorService.deleteOperator(4L);
-
-         // then
-         Mockito.verify(operatorRepository, times(1))
-                 .deleteOperator(entity);
-         assertThat(result, equalTo(true));
+    Mockito.when(operatorRepository.findById(4L)).thenReturn(Optional.of(entity));
+    
+    // Act
+    final boolean result = operatorService.deleteOperator(4L);
+    
+    // Assert
+    Mockito.verify(operatorRepository, times(1)).delete(entity);
+    assertThat(result, equalTo(true));
 
      }
 
