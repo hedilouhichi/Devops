@@ -88,7 +88,7 @@ class OperatorServiceImplTest {
         Operator result = operatorService.deleteOperator(id);
         
         // Assert
-        verify(operatorRepository, times(1)).delete(operator);
+        verify(operatorRepository).delete(operator);
         assertNotNull(result);
 }
 
