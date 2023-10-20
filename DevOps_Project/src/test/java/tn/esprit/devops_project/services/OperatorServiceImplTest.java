@@ -104,4 +104,16 @@ class OperatorServiceImplTest {
         Operator op1 = operatorService.retrieveOperator(Long.valueOf(2L));
         Assertions.assertNotNull(op1);
     }
+    @Test
+    void deleteOperator() {
+        // Arrange
+        Long idToDelete = 1L;
+
+        // Act
+        operatorService.deleteOperator(idToDelete);
+
+        // Assert
+        // Verify that the deleteById method was called once with the correct id
+        Mockito.verify(operatorRepository, Mockito.times(1)).deleteById(idToDelete);
+    }
 }
