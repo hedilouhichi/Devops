@@ -85,11 +85,11 @@ class OperatorServiceImplTest {
         when(operatorRepository.findById(id)).thenReturn(Optional.of(operator));
         
         // Act
-        boolean result = operatorService.deleteOperator(id);
+        Operator result = operatorService.deleteOperator(id);
         
         // Assert
         verify(operatorRepository, times(1)).delete(operator);
-        assertTrue(result);
+        assertNotNull(result);
 }
 
      @Test
