@@ -77,20 +77,20 @@ class OperatorServiceImplTest {
 
     }
 
-     @Test
-     void deleteOperator() {
+    @Test
+    void deleteOperator() {
         // Arrange
-        Long id = 4L;
-        Operator operator = new Operator(id ,"bouba","rebai","bob",new HashSet<Invoice>());
+        long id = 4L;
+        Operator operator = new Operator(id, "bouba", "rebai", "bob", new HashSet<>());
         when(operatorRepository.findById(id)).thenReturn(Optional.of(operator));
-        
+    
         // Act
-        Operator result = operatorService.deleteOperator(id);
-        
+        Optional<Operator> result = operatorService.deleteOperator(id);
+    
         // Assert
         verify(operatorRepository).delete(operator);
-        assertNotNull(result);
-}
+        assertThat(result).isPresent().contains(operator);
+    }
 
      @Test
      void updateOperator() {
