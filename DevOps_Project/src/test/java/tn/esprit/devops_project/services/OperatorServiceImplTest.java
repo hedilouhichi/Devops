@@ -80,8 +80,8 @@ class OperatorServiceImplTest {
      @Test
      void deleteOperator() {
         // Arrange
-        
-        Operator operator = new Operator(4L ,"bouba","rebai","bob",new HashSet<Invoice>());
+        Long id = 4L;
+        Operator operator = new Operator(id ,"bouba","rebai","bob",new HashSet<Invoice>());
         when(operatorRepository.findById(id)).thenReturn(Optional.of(operator));
         
         // Act
