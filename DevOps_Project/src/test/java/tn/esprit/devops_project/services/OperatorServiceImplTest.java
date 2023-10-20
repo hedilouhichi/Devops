@@ -81,7 +81,7 @@ class OperatorServiceImplTest {
 void deleteOperator() {
     // Arrange
     Long idToDelete = 3L;
-    Mockito.doNothing().when(operatorRepository).deleteById(idToDelete);
+    Mockito.when(operatorRepository).deleteById(idToDelete);
 
     // Act
     operatorService.deleteOperator(idToDelete);
