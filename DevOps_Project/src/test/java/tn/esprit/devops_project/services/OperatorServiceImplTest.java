@@ -79,10 +79,11 @@ class OperatorServiceImplTest {
 
     @Test
     void deleteOperator() {
+        Operator updatedOperator = new Operator(3L ,"updatedFname","updatedLname","updatedPassword", new HashSet<Invoice>());
+        Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(updatedOperator);
         Long operatorId = 3L; // The ID of the operator to delete
-        Operator operator=operatorRepository.retrieveOperator(operatorId);
         operatorService.deleteOperator(opertorID);
-        Mockito.verify(operatorRepository).delete(operator);
+        Mockito.verify(operatorRepository).delete(updatedOperator);
 
      }
 
