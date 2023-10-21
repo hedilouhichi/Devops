@@ -22,7 +22,7 @@ import java.util.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
+
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
     @Mock
