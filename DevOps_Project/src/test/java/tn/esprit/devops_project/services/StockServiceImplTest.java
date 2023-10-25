@@ -15,7 +15,6 @@ import tn.esprit.devops_project.repositories.StockRepository;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class StockServiceImplTest {
     @Mock

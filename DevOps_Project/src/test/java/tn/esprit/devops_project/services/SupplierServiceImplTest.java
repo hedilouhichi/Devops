@@ -14,7 +14,6 @@ import tn.esprit.devops_project.repositories.SupplierRepository;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class SupplierServiceImplTest {
     @Mock
@@ -31,7 +30,7 @@ class SupplierServiceImplTest {
             add(new Supplier(3L,"code2", "label1", SupplierCategory.ORDINAIRE,invoiceset,activitySectorset));
         }
     };
-   // @Test
+    // @Test
     void retrieveAllSuppliers() {
         // Arrange
         Mockito.when(supplierRepository.findAll()).thenReturn(listSuppliers);
@@ -70,12 +69,14 @@ class SupplierServiceImplTest {
 
     @Test
     void updateSupplier() {
+        Supplier updatedSupplier = new Supplier(1L,"code1","label1", SupplierCategory.CONVENTIONNE,invoiceset,activitySectorset);
+
         // Arrange
-        Supplier updatedSupplier = new Supplier(1L,"updatedcode","updatedlabel1", SupplierCategory.CONVENTIONNE,invoiceset,activitySectorset);
         Mockito.when(supplierRepository.save(Mockito.any(Supplier.class))).thenReturn(updatedSupplier);
 
         // Act
         Supplier savedSupplier = supplierService.updateSupplier(updatedSupplier);
+
         // Assert
         assertNotNull(savedSupplier);
         assertEquals(supplier.getIdSupplier(), savedSupplier.getIdSupplier());
@@ -93,5 +94,17 @@ class SupplierServiceImplTest {
         Mockito.when(supplierRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(supplier));
         Supplier supplier1 = supplierService.retrieveSupplier(Long.valueOf(2));
         Assertions.assertNotNull(supplier1);
+    }
+    @Test
+    void deleteSupplier() {
+        // Arrange
+        Long idToDelete = 1L;
+
+        // Act
+        supplierService.deleteSupplier(idToDelete);
+
+        // Assert
+        // Verify that the deleteById method was called once with the correct id
+        Mockito.verify(supplierRepository, Mockito.times(1)).deleteById(idToDelete);
     }
 }
