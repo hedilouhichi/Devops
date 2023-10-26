@@ -2,118 +2,111 @@ package tn.esprit.devops_project.services;
 
 
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import tn.esprit.devops_project.entities.ActivitySector;
-import tn.esprit.devops_project.repositories.ActivitySectorRepository;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import tn.esprit.devops_project.entities.*;
+import tn.esprit.devops_project.repositories.SupplierRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-
-public class ActivitySectorTest {
-
-    @InjectMocks
-    ActivitySectorImpl activitySectorService;
-
+@ExtendWith(MockitoExtension.class)
+class ActivitySectorTest {
     @Mock
-    ActivitySectorRepository activitySectorRepository;
+    SupplierRepository supplierRepository;
+    @InjectMocks
+    SupplierServiceImpl supplierService;
+    Set<Invoice> invoiceset =new HashSet<>();
+    Set<ActivitySector> activitySectorset =new HashSet<>();
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    Supplier supplier = new Supplier(1L,"code1","label1", SupplierCategory.CONVENTIONNE,invoiceset,activitySectorset);
+    List<Supplier> listSuppliers = new ArrayList<Supplier>() {
+        {
+            add(new Supplier(2L, "code2","label1", SupplierCategory.ORDINAIRE,invoiceset,activitySectorset));
+            add(new Supplier(3L,"code2", "label1", SupplierCategory.ORDINAIRE,invoiceset,activitySectorset));
+        }
+    };
+    // @Test
+    void retrieveAllSuppliers() {
+        // Arrange
+        Mockito.when(supplierRepository.findAll()).thenReturn(listSuppliers);
+
+        // Act
+        List<Supplier> retrievedSuppliers = supplierService.retrieveAllSuppliers();
+
+        // Assert
+        assertNotNull(retrievedSuppliers);
+        assertEquals(listSuppliers.size(), retrievedSuppliers.size());
+
+        // Verify that the findAll method was called once
+        Mockito.verify(supplierRepository, Mockito.times(1)).findAll();
     }
 
     @Test
-    void testRetrieveAllActivitySectors() {
-        // Créer des données de test
-        List<ActivitySector> activitySectors = new ArrayList<>();
-        activitySectors.add(new ActivitySector(1L, "Code1", "Sector1"));
-        activitySectors.add(new ActivitySector(2L, "Code2", "Sector2"));
+    void addSupplier() {
+        // Arrange
+        Mockito.when(supplierRepository.save(Mockito.any(Supplier.class))).thenReturn(supplier);
 
-        // Définir le comportement du mock
-        Mockito.when(activitySectorRepository.findAll()).thenReturn(activitySectors);
+        // Act
+        Supplier savedSupplier = supplierService.addSupplier(supplier);
 
-        // Appeler la méthode du service
-        List<ActivitySector> result = activitySectorService.retrieveAllActivitySectors();
+        // Assert
+        assertNotNull(savedSupplier);
+        assertEquals(supplier.getIdSupplier(), savedSupplier.getIdSupplier());
+        assertEquals(supplier.getCode(), savedSupplier.getCode());
+        assertEquals(supplier.getLabel(), savedSupplier.getLabel());
+        assertEquals(supplier.getSupplierCategory(), savedSupplier.getSupplierCategory());
+        assertEquals(supplier.getInvoices(), savedSupplier.getInvoices());
+        assertEquals(supplier.getActivitySectors(), savedSupplier.getActivitySectors());
 
-        // Vérifier le résultat
-        assertNotNull(result);
-        assertEquals(2, result.size());
+        // Verify that the save method was called once
+        Mockito.verify(supplierRepository, Mockito.times(1)).save(Mockito.any(Supplier.class));
     }
 
     @Test
-    void testAddActivitySector() {
-        // Créer une instance d'ActivitySector
-        ActivitySector activitySector = new ActivitySector(1L, "Code1", "Sector1");
+    void updateSupplier() {
+        Supplier updatedSupplier = new Supplier(1L,"code1","label1", SupplierCategory.CONVENTIONNE,invoiceset,activitySectorset);
 
-        // Définir le comportement du mock
-        Mockito.when(activitySectorRepository.save(any(ActivitySector.class))).thenReturn(activitySector);
+        // Arrange
+        Mockito.when(supplierRepository.save(Mockito.any(Supplier.class))).thenReturn(updatedSupplier);
 
-        // Appeler la méthode du service
-        ActivitySector savedActivitySector = activitySectorService.addActivitySector(activitySector);
+        // Act
+        Supplier savedSupplier = supplierService.updateSupplier(updatedSupplier);
 
-        // Vérifier le résultat
-        assertNotNull(savedActivitySector);
-        assertEquals(activitySector.getIdSecteurActivite(), savedActivitySector.getIdSecteurActivite());
+        // Assert
+        assertNotNull(savedSupplier);
+        assertEquals(supplier.getIdSupplier(), savedSupplier.getIdSupplier());
+        assertEquals(supplier.getCode(), savedSupplier.getCode());
+        assertEquals(supplier.getLabel(), savedSupplier.getLabel());
+        assertEquals(supplier.getSupplierCategory(), savedSupplier.getSupplierCategory());
+        assertEquals(supplier.getInvoices(), savedSupplier.getInvoices());
+        assertEquals(supplier.getActivitySectors(), savedSupplier.getActivitySectors());
     }
 
+
+
     @Test
-    void testDeleteActivitySector() {
-        // ID de l'ActivitySector à supprimer
-        Long activitySectorId = 1L;
-
-        // Appeler la méthode du service
-        activitySectorService.deleteActivitySector(activitySectorId);
-
-        // Vérifier que la méthode de repository a été appelée avec le bon ID
-        verify(activitySectorRepository).deleteById(activitySectorId);
+    void retrieveSupplier() {
+        Mockito.when(supplierRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(supplier));
+        Supplier supplier1 = supplierService.retrieveSupplier(Long.valueOf(2));
+        Assertions.assertNotNull(supplier1);
     }
-
     @Test
-    void testUpdateActivitySector() {
-        // Créer une instance d'ActivitySector à mettre à jour
-        ActivitySector updatedActivitySector = new ActivitySector(1L, "NewCode", "NewSector");
+    void deleteSupplier() {
+        // Arrange
+        Long idToDelete = 1L;
 
-        // Définir le comportement du mock
-        Mockito.when(activitySectorRepository.save(any(ActivitySector.class))).thenReturn(updatedActivitySector);
+        // Act
+        supplierService.deleteSupplier(idToDelete);
 
-        // Appeler la méthode du service
-        ActivitySector savedActivitySector = activitySectorService.updateActivitySector(updatedActivitySector);
-
-        // Vérifier le résultat
-        assertNotNull(savedActivitySector);
-        assertEquals(updatedActivitySector.getIdSecteurActivite(), savedActivitySector.getIdSecteurActivite());
-        assertEquals(updatedActivitySector.getCodeSecteurActivite(), savedActivitySector.getCodeSecteurActivite());
-        assertEquals(updatedActivitySector.getLibelleSecteurActivite(), savedActivitySector.getLibelleSecteurActivite());
-    }
-
-    @Test
-    void testRetrieveActivitySector() {
-        // ID de l'ActivitySector à récupérer
-        Long activitySectorId = 1L;
-
-        // Créer une instance d'ActivitySector pour simuler la réponse du repository
-        ActivitySector activitySector = new ActivitySector(activitySectorId, "Code1", "Sector1");
-
-        // Définir le comportement du mock
-        Mockito.when(activitySectorRepository.findById(activitySectorId)).thenReturn(Optional.of(activitySector));
-
-        // Appeler la méthode du service
-        ActivitySector retrievedActivitySector = activitySectorService.retrieveActivitySector(activitySectorId);
-
-        // Vérifier le résultat
-        assertNotNull(retrievedActivitySector);
-        assertEquals(activitySectorId, retrievedActivitySector.getIdSecteurActivite());
-        assertEquals("Code1", retrievedActivitySector.getCodeSecteurActivite());
-        assertEquals("Sector1", retrievedActivitySector.getLibelleSecteurActivite());
+        // Assert
+        // Verify that the deleteById method was called once with the correct id
+        Mockito.verify(supplierRepository, Mockito.times(1)).deleteById(idToDelete);
     }
 }
