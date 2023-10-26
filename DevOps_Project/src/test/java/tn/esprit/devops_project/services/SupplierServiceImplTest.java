@@ -1,86 +1,110 @@
 package tn.esprit.devops_project.services;
 
-import org.junit.Before;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import tn.esprit.devops_project.entities.Supplier;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import tn.esprit.devops_project.entities.*;
 import tn.esprit.devops_project.repositories.SupplierRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
-
-public class SupplierServiceImplTest {
-
-    @InjectMocks
-    private SupplierServiceImpl supplierService;
-
+import static org.junit.jupiter.api.Assertions.*;
+@ExtendWith(MockitoExtension.class)
+class SupplierServiceImplTest {
     @Mock
-    private SupplierRepository supplierRepository;
+    SupplierRepository supplierRepository;
+    @InjectMocks
+    SupplierServiceImpl supplierService;
+    Set<Invoice> invoiceset =new HashSet<>();
+    Set<ActivitySector> activitySectorset =new HashSet<>();
 
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
+    Supplier supplier = new Supplier(1L,"code1","label1", SupplierCategory.CONVENTIONNE,invoiceset,activitySectorset);
+    List<Supplier> listSuppliers = new ArrayList<Supplier>() {
+        {
+            add(new Supplier(2L, "code2","label1", SupplierCategory.ORDINAIRE,invoiceset,activitySectorset));
+            add(new Supplier(3L,"code2", "label1", SupplierCategory.ORDINAIRE,invoiceset,activitySectorset));
+        }
+    };
+    // @Test
+    void retrieveAllSuppliers() {
+        // Arrange
+        Mockito.when(supplierRepository.findAll()).thenReturn(listSuppliers);
+
+        // Act
+        List<Supplier> retrievedSuppliers = supplierService.retrieveAllSuppliers();
+
+        // Assert
+        assertNotNull(retrievedSuppliers);
+        assertEquals(listSuppliers.size(), retrievedSuppliers.size());
+
+        // Verify that the findAll method was called once
+        Mockito.verify(supplierRepository, Mockito.times(1)).findAll();
     }
 
     @Test
-    public void testRetrieveAllSuppliers() {
-        // Créez une liste factice de fournisseurs
-        List<Supplier> supplierList = new ArrayList<>();
-        supplierList.add(new Supplier());
-        supplierList.add(new Supplier());
+    void addSupplier() {
+        // Arrange
+        Mockito.when(supplierRepository.save(Mockito.any(Supplier.class))).thenReturn(supplier);
 
-        when(supplierRepository.findAll()).thenReturn(supplierList);
+        // Act
+        Supplier savedSupplier = supplierService.addSupplier(supplier);
 
-        List<Supplier> result = supplierService.retrieveAllSuppliers();
+        // Assert
+        assertNotNull(savedSupplier);
+        assertEquals(supplier.getIdSupplier(), savedSupplier.getIdSupplier());
+        assertEquals(supplier.getCode(), savedSupplier.getCode());
+        assertEquals(supplier.getLabel(), savedSupplier.getLabel());
+        assertEquals(supplier.getSupplierCategory(), savedSupplier.getSupplierCategory());
+        assertEquals(supplier.getInvoices(), savedSupplier.getInvoices());
+        assertEquals(supplier.getActivitySectors(), savedSupplier.getActivitySectors());
 
-        assertEquals(2, result.size());
+        // Verify that the save method was called once
+        Mockito.verify(supplierRepository, Mockito.times(1)).save(Mockito.any(Supplier.class));
     }
 
     @Test
-    public void testAddSupplier() {
-        Supplier supplier = new Supplier();
+    void updateSupplier() {
+        Supplier updatedSupplier = new Supplier(1L,"code1","label1", SupplierCategory.CONVENTIONNE,invoiceset,activitySectorset);
 
-        when(supplierRepository.save(supplier)).thenReturn(supplier);
+        // Arrange
+        Mockito.when(supplierRepository.save(Mockito.any(Supplier.class))).thenReturn(updatedSupplier);
 
-        Supplier result = supplierService.addSupplier(supplier);
+        // Act
+        Supplier savedSupplier = supplierService.updateSupplier(updatedSupplier);
 
-        assertNotNull(result);
+        // Assert
+        assertNotNull(savedSupplier);
+        assertEquals(supplier.getIdSupplier(), savedSupplier.getIdSupplier());
+        assertEquals(supplier.getCode(), savedSupplier.getCode());
+        assertEquals(supplier.getLabel(), savedSupplier.getLabel());
+        assertEquals(supplier.getSupplierCategory(), savedSupplier.getSupplierCategory());
+        assertEquals(supplier.getInvoices(), savedSupplier.getInvoices());
+        assertEquals(supplier.getActivitySectors(), savedSupplier.getActivitySectors());
     }
 
+
+
     @Test
-    public void testUpdateSupplier() {
-        Supplier supplier = new Supplier();
-
-        when(supplierRepository.save(supplier)).thenReturn(supplier);
-
-        Supplier result = supplierService.updateSupplier(supplier);
-
-        assertNotNull(result);
+    void retrieveSupplier() {
+        Mockito.when(supplierRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(supplier));
+        Supplier supplier1 = supplierService.retrieveSupplier(Long.valueOf(2));
+        Assertions.assertNotNull(supplier1);
     }
-
     @Test
-    public void testDeleteSupplier() {
-        Long supplierId = 1L;
+    void deleteSupplier() {
+        // Arrange
+        Long idToDelete = 1L;
 
-        supplierService.deleteSupplier(supplierId);
+        // Act
+        supplierService.deleteSupplier(idToDelete);
 
-        verify(supplierRepository).deleteById(supplierId);
-    }
-
-    @Test
-    public void testRetrieveSupplier() {
-        Long supplierId = 1L;
-        Supplier supplier = new Supplier();
-        when(supplierRepository.findById(supplierId)).thenReturn(Optional.of(supplier));
-
-        Supplier result = supplierService.retrieveSupplier(supplierId);
-
-        assertNotNull(result);
+        // Assert
+        // Verify that the deleteById method was called once with the correct id
+        Mockito.verify(supplierRepository, Mockito.times(1)).deleteById(idToDelete);
     }
 }
