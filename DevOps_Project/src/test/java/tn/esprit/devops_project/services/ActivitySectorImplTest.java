@@ -6,7 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.devops_project.entities.ActivitySector;
 import tn.esprit.devops_project.repositories.ActivitySectorRepository;
 
@@ -15,7 +14,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
 class ActivitySectorImplTest {
@@ -26,12 +24,20 @@ class ActivitySectorImplTest {
     @InjectMocks
     ActivitySectorImpl activitySectorService;
 
+    private ActivitySector createActivitySector(Long id, String code, String label) {
+        ActivitySector activitySector = new ActivitySector();
+        activitySector.setIdSecteurActivite(id);
+        activitySector.setCodeSecteurActivite(code);
+        activitySector.setLibelleSecteurActivite(label);
+        return activitySector;
+    }
+
     @Test
     void retrieveAllActivitySectors() {
         // Arrange
         List<ActivitySector> activitySectors = List.of(
-                new ActivitySector(1L, "code1", "label1"),
-                new ActivitySector(2L, "code2", "label2")
+                createActivitySector(1L, "code1", "label1"),
+                createActivitySector(2L, "code2", "label2")
         );
 
         Mockito.when(activitySectorRepository.findAll()).thenReturn(activitySectors);
@@ -50,7 +56,7 @@ class ActivitySectorImplTest {
     @Test
     void addActivitySector() {
         // Arrange
-        ActivitySector activitySector = new ActivitySector(1L, "code1", "label1");
+        ActivitySector activitySector = createActivitySector(1L, "code1", "label1");
 
         Mockito.when(activitySectorRepository.save(any(ActivitySector.class))).thenReturn(activitySector);
 
@@ -66,9 +72,6 @@ class ActivitySectorImplTest {
         // Verify that the save method was called once
         Mockito.verify(activitySectorRepository, Mockito.times(1)).save(any(ActivitySector.class));
     }
-
-
-
 
     @Test
     void deleteActivitySector() {
@@ -87,7 +90,7 @@ class ActivitySectorImplTest {
     void retrieveActivitySector() {
         // Arrange
         Long activitySectorId = 1L;
-        ActivitySector activitySector = new ActivitySector(activitySectorId, "code1", "label1");
+        ActivitySector activitySector = createActivitySector(activitySectorId, "code1", "label1");
 
         Mockito.when(activitySectorRepository.findById(activitySectorId)).thenReturn(Optional.of(activitySector));
 
