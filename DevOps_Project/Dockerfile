@@ -2,7 +2,7 @@
 FROM openjdk:11
 
 # Exposez le port de votre application Spring Boot (par exemple, 8080)
-EXPOSE 8080
+EXPOSE 8082
 
 # Ajoutez le fichier JAR généré dans le répertoire target
 ADD target/DevOps_Project-2.1.jar DevOps_Project-2.1.jar
