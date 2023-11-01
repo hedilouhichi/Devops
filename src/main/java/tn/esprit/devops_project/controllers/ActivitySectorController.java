@@ -29,10 +29,7 @@ public class ActivitySectorController {
         activitySectorService.deleteActivitySector(id);
     }
 
-    @PutMapping("/activitySector")
-    ActivitySector updateActivitySector(@RequestBody ActivitySector activitySector){
-        return activitySectorService.updateActivitySector(activitySector);
-    }
+
 
     @GetMapping("/activitySector/{id}")
     ActivitySector retrieveActivitySector(@PathVariable Long id){
