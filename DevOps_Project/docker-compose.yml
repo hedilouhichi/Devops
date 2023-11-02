@@ -10,14 +10,17 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=devops
-      - MYSQL_PASSWORD=root  
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
   devops-backend:
     depends_on:
       - mysqldb
     build: ./
     restart: on-failure
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/devops?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC 
     ports:
-      - 6868:8082
+      - 8082:8082
     volumes:
       -  .m2:/root/.m2
     stdin_open: true
