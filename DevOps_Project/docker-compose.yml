@@ -10,7 +10,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=devops
-      - MYSQL_USER=root
       - MYSQL_PASSWORD=root  
   devops-backend:
     depends_on:
