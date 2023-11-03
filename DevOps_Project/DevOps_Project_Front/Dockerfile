@@ -1,8 +1,13 @@
-FROM node:12.18.3-stretch-slim
-WORKDIR /usr/src/app
-COPY package.json .
-RUN npm i -g @angular/cli@~10.0.4
-RUN npm i
+FROM node:alpine AS builder
+
+WORKDIR /app
+
 COPY . .
-#RUN ng build .
-CMD ng serve --host 0.0.0.0
+
+RUN npm install && \
+    npm run build
+
+FROM nginx:alpine
+
+COPY --from=builder /app/dist/* /usr/share/nginx/html/
+COPY /nginx.conf /etc/nginx/conf.d/default.conf
