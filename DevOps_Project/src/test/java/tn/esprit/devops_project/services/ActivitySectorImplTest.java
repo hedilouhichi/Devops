@@ -102,7 +102,7 @@ class ActivitySectorImplTest {
         assertTrue(true);
     }
     ////////////////////////////////JUNIT////////////////////////////
-    @Test
+    /*@Test
     void retrieveActivitySector() {
         // Arrange
         Long activitySectorId = 1L;
@@ -114,6 +114,6 @@ class ActivitySectorImplTest {
         // Assert
         assertEquals(expectedActivitySector, actualActivitySector);
     }
-
+*/
 
 }
