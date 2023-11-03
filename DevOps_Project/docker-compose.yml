@@ -32,6 +32,14 @@ services:
       - mysqldb
     networks:
       - my_network
+  front_app:
+    build: ./DevOps_Project_Front
+    image: front
+    restart: unless-stopped
+    ports:
+      - 4200:80
+    networks:
+      - my_network
 
 
 networks:
