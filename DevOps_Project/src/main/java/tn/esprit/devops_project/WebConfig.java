@@ -1,4 +1,4 @@
-package com.sb.example.demo;
+package tn.esprit.devops_project;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
