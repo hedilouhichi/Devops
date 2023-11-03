@@ -1,4 +1,4 @@
-package com.sb.example.demo;
+package tn.esprit.devops_project;
 
 import java.io.IOException;
 
