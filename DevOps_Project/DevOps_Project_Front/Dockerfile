@@ -27,7 +27,7 @@ FROM nginx:alpine
 
 
 # Copy our custom nginx config
-COPY src/nginx/etc/conf.d/default.conf /etc/nginx/conf/default.conf
+#COPY src/nginx/etc/conf.d/default.conf /etc/nginx/conf/default.conf
 
 # Copy the angular build from Stage 1
 COPY --from=build app/dist/angular-qlsv-demo usr/share/nginx/html
