@@ -33,3 +33,10 @@ services:
       - mysqldb
     networks:
       - my_network
+      
+networks:
+  my_network:
+
+volumes:
+  db_vol:
+  .m2:
