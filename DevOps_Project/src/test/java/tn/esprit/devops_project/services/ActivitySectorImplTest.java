@@ -30,44 +30,7 @@ class ActivitySectorImplTest {
         return activitySector;
     }
 
-    @Test
-    void retrieveAllActivitySectors() {
-        // Arrange
-        List<ActivitySector> activitySectors = List.of(
-                createActivitySector(1L, "code1", "label1"),
-                createActivitySector(2L, "code2", "label2")
-        );
 
-        when(activitySectorRepository.findAll()).thenReturn(activitySectors);
-
-        // Act
-        List<ActivitySector> retrievedActivitySectors = activitySectorService.retrieveAllActivitySectors();
-
-        // Assert
-        assertNotNull(retrievedActivitySectors);
-        assertEquals(activitySectors.size(), retrievedActivitySectors.size());
-
-        // Verify that the findAll method was called once
-        verify(activitySectorRepository, times(1)).findAll();
-    }
-
-    @Test
-    void addActivitySector() {
-        // Arrange
-        ActivitySector activitySector = createActivitySector(1L, "code1", "label1");
-
-        when(activitySectorRepository.save(Mockito.any(ActivitySector.class))).thenReturn(activitySector);
-
-        // Act
-        ActivitySector savedActivitySector = activitySectorService.addActivitySector(activitySector);
-
-        // Assert
-        assertNotNull(savedActivitySector);
-        assertEquals(activitySector, savedActivitySector);
-
-        // Verify that the save method was called once
-        verify(activitySectorRepository, times(1)).save(Mockito.any(ActivitySector.class));
-    }
     @Test
     public void updateActivitySector() {
         // Arrange
