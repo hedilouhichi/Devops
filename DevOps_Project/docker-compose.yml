@@ -18,12 +18,13 @@ services:
 
   devops_app:
     build: ./
+    container_name: demo
     image: hedilouhichi-5ds
     restart: on-failure
     environment:
       - spring.datasource.url=jdbc:mysql://mysqldb:3306/devops?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC 
     ports:
-      - 8082:8082
+      - 8082:82
     volumes:
       -  .m2:/root/.m2
     stdin_open: true
@@ -34,10 +35,11 @@ services:
       - my_network
   front_app:
     build: ./DevOps_Project_Front
+    container_name: demo-ui
     image: front
     restart: unless-stopped
     ports:
-      - 4200:80
+      - 4200:82
     networks:
       - my_network
 
