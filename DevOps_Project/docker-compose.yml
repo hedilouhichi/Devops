@@ -39,7 +39,7 @@ services:
     image: front
     restart: unless-stopped
     ports:
-      - 4200:82
+      - 4200:4200
     networks:
       - my_network
 
