@@ -1,14 +1,14 @@
 package tn.esprit.devops_project.services;
 
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
+import org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.devops_project.entities.Product;
 import tn.esprit.devops_project.entities.ProductCategory;
 import tn.esprit.devops_project.entities.Stock;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.times;
 
 import java.util.*;
 
-
+import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,12 +31,12 @@ class ProductServiceImplTest {
     StockRepository stockRepository;
     @InjectMocks
     ProductServiceImpl productService;
-
+    
 
     Set<Product> productset =new HashSet<>();
     Stock stock = new Stock(1,"l1",productset);
     Product product = new Product(1L,"Atomic Habits",20,20, ProductCategory.BOOKS,stock);
-    List<Product> productList = new ArrayList<>() {
+    List<Product> productList = new ArrayList<Product>() {
         {
             add(new Product(2L,"12 rules of life",15,30,ProductCategory.BOOKS,stock));
             add(new Product(3L,"Jeans",10,10,ProductCategory.CLOTHING, stock));
@@ -67,21 +67,12 @@ class ProductServiceImplTest {
 
     @Test
     void retreiveAllProduct() {
-        List<Product> productList = new ArrayList<>() {
-            {
-                add(new Product(2L, "12 rules of life", 15, 30, ProductCategory.BOOKS, new Stock(2, "l2", new HashSet<>())));
-                add(new Product(3L, "Jeans", 10, 10, ProductCategory.CLOTHING, new Stock(3, "l3", new HashSet<>())));
-            }
-        };
-        productRepository.saveAll(productList);
-        // Create a new instance of ProductServiceImpl with the ProductRepository
-        ProductServiceImpl productService = new ProductServiceImpl(productRepository, stockRepository);
+        when(productRepository.findAll()).thenReturn(productList);
 
-        // Call the method you want to test
         List<Product> retrievedProducts = productService.retreiveAllProduct();
 
-        // Assert the result
         assertEquals(productList.size(), retrievedProducts.size());
+        verify(productRepository, times(1)).findAll();
     }
 
     @Test
@@ -96,47 +87,17 @@ class ProductServiceImplTest {
 
     @Test
     void deleteProduct() {
-        List<Product> productList = new ArrayList<>() {
-            {
-                add(new Product(1L, "Atomic Habits", 20, 20, ProductCategory.BOOKS, new Stock(1, "l1", new HashSet<>())));
-                add(new Product(2L, "12 rules of life", 15, 30, ProductCategory.BOOKS, new Stock(2, "l2", new HashSet<>())));
-            }
-        };
-
-        // Set up your ProductRepository with the productList data (or use a mock if you prefer)
-        productRepository.saveAll(productList);
-
-        // Create a new instance of ProductServiceImpl with the ProductRepository
-        ProductServiceImpl productService = new ProductServiceImpl(productRepository, stockRepository);
-
-        // Call the method you want to test
         productService.deleteProduct(1L);
-
-        // Assert the result
-        assertNull(productRepository.findById(1L));
+        verify(productRepository, times(1)).deleteById(1L);
     }
 
     @Test
     void retreiveProductStock() {
+        when(productRepository.findByStockIdStock(1L)).thenReturn(productList);
 
-        List<Product> productList = new ArrayList<>() {
-            {
-                add(new Product(1L, "Atomic Habits", 20, 20, ProductCategory.BOOKS, new Stock(1, "l1", new HashSet<>())));
-                add(new Product(2L, "12 rules of life", 15, 30, ProductCategory.BOOKS, new Stock(1, "l1", new HashSet<>())));
-            }
-        };
-
-        // Set up your ProductRepository with the productList data (or use a mock if you prefer)
-
-        productRepository.saveAll(productList);
-
-        // Create a new instance of ProductServiceImpl with the ProductRepository
-        ProductServiceImpl productService = new ProductServiceImpl(productRepository, stockRepository);
-
-        // Call the method you want to test
         List<Product> retrievedProducts = productService.retreiveProductStock(1L);
 
-        // Assert the result
-        assertEquals(2, retrievedProducts.size());
+        assertEquals(productList.size(), retrievedProducts.size());
+        verify(productRepository, times(1)).findByStockIdStock(1L);
     }
 }
