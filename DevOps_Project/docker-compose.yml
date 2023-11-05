@@ -34,5 +34,5 @@ services:
     networks:
       - my_network
 volumes:
-  db:
+  db_vol:
   .m2:
