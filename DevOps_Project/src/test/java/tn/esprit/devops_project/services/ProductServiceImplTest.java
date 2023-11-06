@@ -45,8 +45,6 @@ class ProductServiceImplTest {
     ///////////////////////JUNIT//////////////////////////////////////////
     @Test
     void addProduct() {
-        Stock stock = new Stock();
-        Product product = new Product(1L, "Atomic Habits", 20, 20, ProductCategory.BOOKS, stock);
         Product addedProduct = productService.addProduct(product, 1L);
 
         assertEquals(product, addedProduct);
