@@ -83,10 +83,10 @@
 
     <!-- Deploy to Nexus -->
     <distributionManagement>
-        <repository>
-          <id>release-maven</id>
-          <url>http://192.168.1.54:8081/repository/maven-releases/</url>
-        </repository>
+        <snapshotRepository>
+            <id>snapshot-maven</id>
+            <url>http://192.168.1.54:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
   <build>
