@@ -83,10 +83,10 @@
 
     <!-- Deploy to Nexus -->
     <distributionManagement>
-        <snapshotRepository>
+        <repository>
             <id>snapshot-maven</id>
             <url>http://192.168.1.54:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
+    </repository>
     </distributionManagement>
 
   <build>
