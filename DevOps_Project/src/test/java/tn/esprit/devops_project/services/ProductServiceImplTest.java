@@ -34,7 +34,7 @@ class ProductServiceImplTest {
     
 
     Set<Product> productset =new HashSet<>();
-    Stock stock = new Stock(1,"l1",productset);
+    Stock stock = new Stock(1L,"l1",productset);
     Product product = new Product(1L,"Atomic Habits",20,20, ProductCategory.BOOKS,stock);
     List<Product> productList = new ArrayList<Product>() {
         {
