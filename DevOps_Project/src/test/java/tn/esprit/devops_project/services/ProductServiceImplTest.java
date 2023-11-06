@@ -49,7 +49,7 @@ class ProductServiceImplTest {
         stockRepository.save(stock);
 
         Product product = new Product(1L, "Atomic Habits", 20, 20, ProductCategory.BOOKS, stock);
-        Product addedProduct = productService.addProduct(product, 1L);
+        Product addedProduct = productService.addProduct(product, 1);
 
         assertEquals(product, addedProduct);
     }
