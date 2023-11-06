@@ -2,7 +2,7 @@
 FROM openjdk:11
 
 # Exposez le port de votre application Spring Boot (par exemple, 8080)
-EXPOSE 8082
+EXPOSE 8080
 
 # Ajoutez le fichier JAR généré dans le répertoire target
 ARG JAR_FILE=target/*.jar
