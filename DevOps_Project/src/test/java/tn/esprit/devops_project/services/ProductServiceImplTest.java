@@ -45,11 +45,11 @@ class ProductServiceImplTest {
     ///////////////////////JUNIT//////////////////////////////////////////
     @Test
     void addProduct() {
-        Stock stock = new Stock(1, "l1", new HashSet<>());
+        Stock stock = new Stock(1L, "l1", new HashSet<>());
         stockRepository.save(stock);
 
         Product product = new Product(1L, "Atomic Habits", 20, 20, ProductCategory.BOOKS, stock);
-        Product addedProduct = productService.addProduct(product, 1);
+        Product addedProduct = productService.addProduct(product, 1L);
 
         assertEquals(product, addedProduct);
     }
