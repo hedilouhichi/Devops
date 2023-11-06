@@ -13,7 +13,7 @@ services:
   kaddem-backend:
     depends_on:
       - mysqldb
-    image: sakerassia/devopsbd:1.0.0
+    image: sakerassia/devops
     restart: on-failure
     ports:
       - 8089:8089
