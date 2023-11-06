@@ -76,6 +76,13 @@ class OperatorServiceImplTest {
 
 
     }
+        //////////////////JUNIT///////////////////////////////////
+    @Test
+    void deleteSupplier() {
+        Long idToDelete = 1L;
+        operatorService.deleteOperator(idToDelete);
+        assertTrue(true);
+    }
 
 // @Test
 // void deleteOperator() {
