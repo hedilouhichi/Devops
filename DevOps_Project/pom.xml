@@ -16,6 +16,9 @@
     <properties>
         <java.version>11</java.version>
     </properties>
+    
+    
+       
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,10 +50,29 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.7.0</version>
         </dependency>
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+        </dependency>
+         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+        <dependency>
+             <groupId>org.jacoco</groupId> 
+             <artifactId>jacoco-maven-plugin</artifactId>
+             <version>0.8.6</version>
+         </dependency>
     </dependencies>
 
     <build>
@@ -67,7 +89,34 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+             <groupId>org.jacoco</groupId>
+             <artifactId>jacoco-maven-plugin</artifactId>
+             <version>0.8.6</version>
+             <executions>
+                 <execution>
+                     <id>jacoco-initialize</id>
+                     <goals>
+                         <goal>prepare-agent</goal>
+                     </goals>
+                 </execution>
+                 <execution>
+                     <id>jacoco-site</id>
+                     <phase>package</phase>
+                     <goals>
+                         <goal>report</goal>
+                     </goals>
+                 </execution>
+             </executions>
+         </plugin>     
         </plugins>
     </build>
-
+    <!-- Deploy to Nexus -->
+    <distributionManagement>
+        <repository>
+            <id>deploymentRepo</id>
+            <name>Nexus Repository</name>
+            <url>http://192.168.1.14:8081/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
 </project>
