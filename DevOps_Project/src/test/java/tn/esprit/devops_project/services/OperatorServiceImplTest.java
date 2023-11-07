@@ -59,7 +59,7 @@ class OperatorServiceImplTest {
 
     @Test
     void addOperator() {
-        Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(operator);
+        //Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(operator);
 
         // Act
         Operator savedOperator = operatorService.addOperator(operator);
