@@ -1,31 +1,47 @@
-version: '3.8'
+version: "3.8"
+
 services:
   mysqldb:
-    image: mysql:5.7
+    image: mysql:latest
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=null
-      - MYSQL_DATABASE=devops
+      - MYSQL_ALLOW_EMPTY_PASSWORD
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=devops  # Change the database name if necessary
     ports:
       - 3306:3306
     volumes:
       - db:/var/lib/mysql
-  devops-backend:
+    networks:
+      - mynetwork
+
+  backend:
+    image: eyaferchichi/devopsproject-2.1  # Update this to the correct image name
     depends_on:
       - mysqldb
-    image: eyaferchichi/devopsproject-2.1
+    build: ./  # Update the build path if necessary
     restart: on-failure
     ports:
-      - 8089:8089
+      - 3306:3306
     environment:
       SPRING_APPLICATION_JSON: '{
-    "spring.datasource.url": "jdbc:mysql://mysqldb:3306/devops?createDatabaseIfNotExist=true",
-    "spring.datasource.username": "root",
-    "spring.datasource.password": null,
-    "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.MySQL5Dialect",
-    "spring.jpa.hibernate.ddl-auto": "update"
+        "server.servlet.context-path" : "/devops",
+        "server.port" : "8082",
+        "spring.datasource.url" : "jdbc:mysql://mysqldb:3306/devops?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "0000",
+        "spring.jpa.show-sql" : "true",
+        "spring.jpa.hibernate.ddl-auto" : "update",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5Dialect"
       }'
-    stdin_open: true
-    tty: true
+    volumes:
+      - ./m2:/root/.m2
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
 volumes:
   db:
