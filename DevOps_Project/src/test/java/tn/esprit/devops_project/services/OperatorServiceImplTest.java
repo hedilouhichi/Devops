@@ -56,10 +56,10 @@ class OperatorServiceImplTest {
 
 
     }
-
+      
     @Test
     void addOperator() {
-        //Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(operator);
+        Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(operator);
 
         // Act
         Operator savedOperator = operatorService.addOperator(operator);
@@ -84,37 +84,45 @@ class OperatorServiceImplTest {
         assertTrue(true);
     }
 
-// @Test
-// void deleteOperator() {
-//     // Arrange
-//     Long idToDelete = 1L;
-//     Mockito.when(operatorRepository).deleteById(idToDelete);
 
-//     // Act
-//     operatorService.deleteOperator(idToDelete);
+       //////////////////JUNIT///////////////////////////////////
+        @Test
+    void updateOperator() {
+        OperatorRepository operatorRepository = new MockOperatorRepository(); // Create or use an in-memory repository for testing
+        OperatorServiceImpl operatorService = new OperatorServiceImpl(operatorRepository); // Inject the repository
 
-//     // Assert
-//     verify(operatorRepository, times(1)).deleteById(idToDelete);
-// }
+        // Arrange
+        Operator updatedOperator = new Operator(1L, "updatedFname", "updatedLname", "updatedPassword", new HashSet<>());
 
-     @Test
-     void updateOperator() {
-         // Arrange
-         Operator updatedOperator = new Operator(1L ,"updatedFname","updatedLname","updatedPassword", new HashSet<Invoice>());
-         Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(updatedOperator);
+        // Act
+        Operator result = operatorService.updateOperator(updatedOperator);
 
-         // Act
-         Operator result = operatorService.updateOperator(updatedOperator);
+        // Assert
+        assertNotNull(result);
+        assertEquals(updatedOperator.getIdOperateur(), result.getIdOperateur());
+        assertEquals(updatedOperator.getFname(), result.getFname());
+        assertEquals(updatedOperator.getLname(), result.getLname());
+        assertEquals(updatedOperator.getPassword(), result.getPassword());
+        assertEquals(updatedOperator.getInvoices(), result.getInvoices());
+    }
+     // @Test
+     // void updateOperator() {
+     //     // Arrange
+     //     Operator updatedOperator = new Operator(1L ,"updatedFname","updatedLname","updatedPassword", new HashSet<Invoice>());
+     //     Mockito.when(operatorRepository.save(Mockito.any(Operator.class))).thenReturn(updatedOperator);
 
-         // Assert
-         assertNotNull(result);
-         assertEquals(updatedOperator.getIdOperateur(), result.getIdOperateur());
-         assertEquals(updatedOperator.getFname(), result.getFname());
-         assertEquals(updatedOperator.getLname(), result.getLname());
-         assertEquals(updatedOperator.getPassword(), result.getPassword());
-         assertEquals(updatedOperator.getInvoices(), result.getInvoices());
+     //     // Act
+     //     Operator result = operatorService.updateOperator(updatedOperator);
 
-     }
+     //     // Assert
+     //     assertNotNull(result);
+     //     assertEquals(updatedOperator.getIdOperateur(), result.getIdOperateur());
+     //     assertEquals(updatedOperator.getFname(), result.getFname());
+     //     assertEquals(updatedOperator.getLname(), result.getLname());
+     //     assertEquals(updatedOperator.getPassword(), result.getPassword());
+     //     assertEquals(updatedOperator.getInvoices(), result.getInvoices());
+
+     // }
 
     @Test
     void retrieveOperator() {
