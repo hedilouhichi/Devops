@@ -52,8 +52,13 @@ class ActivitySectorImplTest {
         // Vérifie que la méthode save du repository a été appelée une fois
         verify(activitySectorRepository, times(1)).save(any(ActivitySector.class));
     }
+<<<<<<< HEAD:DevOps_Project/src/test/java/tn/esprit/devops_project/services/ActivitySectorImplTest.java
     //////////////////JUNIT///////////////////////////////////
     @Test
+=======
+//////////////////JUNIT///////////////////////////////////
+@Test
+>>>>>>> origin/esya:src/test/java/tn/esprit/devops_project/services/ActivitySectorImplTest.java
     void deleteActivitySector() {
 
         Long activitySectorId = 1L;
@@ -133,4 +138,8 @@ class ActivitySectorImplTest {
     }
 
 
+<<<<<<< HEAD:DevOps_Project/src/test/java/tn/esprit/devops_project/services/ActivitySectorImplTest.java
 }
+=======
+}
+>>>>>>> origin/esya:src/test/java/tn/esprit/devops_project/services/ActivitySectorImplTest.java
