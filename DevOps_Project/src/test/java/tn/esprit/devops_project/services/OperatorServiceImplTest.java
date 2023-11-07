@@ -88,9 +88,7 @@ class OperatorServiceImplTest {
        //////////////////JUNIT///////////////////////////////////
         @Test
     void updateOperator() {
-        OperatorRepository operatorRepository = new MockOperatorRepository(); // Create or use an in-memory repository for testing
-        OperatorServiceImpl operatorService = new OperatorServiceImpl(operatorRepository); // Inject the repository
-
+        
         // Arrange
         Operator updatedOperator = new Operator(1L, "updatedFname", "updatedLname", "updatedPassword", new HashSet<>());
 
