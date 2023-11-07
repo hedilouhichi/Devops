@@ -57,43 +57,36 @@ public class InvoiceServiceImplTest {
 
     @Test
     public void testRetrieveAllInvoices() {
-        // Arrange
+
         List<Invoice> expectedInvoices = new ArrayList<>();
         when(invoiceRepository.findAll()).thenReturn(expectedInvoices);
 
-        // Act
         List<Invoice> invoices = invoiceService.retrieveAllInvoices();
 
-        // Assert
         assertEquals(expectedInvoices, invoices);
     }
 
     @Test
     public void testCancelInvoice() {
-        // Arrange
         long invoiceId = 1L;
         Invoice mockInvoice = new Invoice();
         when(invoiceRepository.findById(invoiceId)).thenReturn(Optional.of(mockInvoice));
 
-        // Act
         invoiceService.cancelInvoice(invoiceId);
 
-        // Assert
         assertTrue(mockInvoice.getArchived());
         verify(invoiceRepository).save(mockInvoice);
     }
 
     @Test
     public void testRetrieveInvoice() {
-        // Arrange
         long invoiceId = 1L;
         Invoice expectedInvoice = new Invoice();
         when(invoiceRepository.findById(invoiceId)).thenReturn(Optional.of(expectedInvoice));
 
-        // Act
+
         Invoice invoice = invoiceService.retrieveInvoice(invoiceId);
 
-        // Assert
         assertEquals(expectedInvoice, invoice);
     }
 
@@ -147,6 +140,6 @@ public class InvoiceServiceImplTest {
         float totalAmount = invoiceService.getTotalAmountInvoiceBetweenDates(startDate, endDate);
 
         // Assert
-        assertEquals(expectedAmount, totalAmount, 0.001); // Use an appropriate delta for float comparison
+        assertEquals(expectedAmount, totalAmount, 0.001);
     }
 }
