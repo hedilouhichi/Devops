@@ -18,8 +18,7 @@ import tn.esprit.devops_project.repositories.SupplierRepository;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -91,8 +90,8 @@ public class InvoiceServiceImplTest {
     }
 
 
-
-    /*@Test
+/*
+    @Test
     public void testGetInvoicesBySupplier() {
         // Arrange
         long supplierId = 1L;
@@ -123,11 +122,12 @@ public class InvoiceServiceImplTest {
         invoiceService.assignOperatorToInvoice(operatorId, invoiceId);
 
         // Assert
+        assertNotNull(mockOperator);
+        assertNotNull(mockInvoice);
         assertTrue(mockOperator.getInvoices().contains(mockInvoice));
         verify(operatorRepository).save(mockOperator);
     }
-    */
-
+*/
     @Test
     public void testGetTotalAmountInvoiceBetweenDates() {
         // Arrange
