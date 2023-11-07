@@ -86,7 +86,7 @@ class OperatorServiceImplTest {
 
 
 
-      @Test
+    @Test
       void updateOperator() {
           // Arrange
           Operator updatedOperator = new Operator(1L ,"updatedFname","updatedLname","updatedPassword", new HashSet<Invoice>());
